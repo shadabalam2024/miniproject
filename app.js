@@ -1,7 +1,7 @@
 import cookieParser from "cookie-parser"
 import express, { urlencoded } from "express"
 import path from "path"
-// import user from "./models/user.model.js"
+import userModel from "./models/user.model.js"
 import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken"
 // import authMiddleware from "./middlewares/restrictuser.js"
