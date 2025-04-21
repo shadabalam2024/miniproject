@@ -24,6 +24,13 @@ app.use(cookieParser())
 app.get("/",(req,res)=>{
     res.render('index')
 })
+app.get("/login",(req,res)=>{
+    res.render('login')
+})
+app.get("/logout",(req,res)=>{
+    res.clearCookie("token")
+    res.render('login')
+})
 
 
 app.post("/register",async(req,res)=>{
@@ -46,9 +53,35 @@ app.post("/register",async(req,res)=>{
             age,
             name
         })
+
+        const token = jwt.sign({email: email, userid: user._id},"shh");
+        res.cookie("token",token)
+        res.send("user registered successfully")
     
         
     });
+})
+
+
+app.post("/login",async(req,res)=>{
+
+    let{email,password}=req.body
+
+    let user=await userModel.findOne({email})
+    if(!user){
+        res.status(400).send("Incorrect Credentials")
+    }
+
+    bcrypt.compare(password,user.password, (err, result) => {
+        if(result){
+            
+            const token = jwt.sign({email: email, userid: user._id},"shh");
+            res.cookie("token",token)
+            res.status(200).send("logedIn successfully")
+        }else res.status(400).send("Incorrect Credentials")
+        
+    });
+    
 })
 
 

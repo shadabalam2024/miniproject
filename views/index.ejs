@@ -12,8 +12,8 @@
         }
 
         body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f8f9fa;
+            font-family: 'Poppins', sans-serif;
+            background-color: #f4f4f4;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -22,48 +22,53 @@
 
         form {
             background: white;
-            padding: 25px;
-            border-radius: 8px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            width: 320px;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            width: 350px;
             display: flex;
             flex-direction: column;
-            gap: 15px;
+            gap: 18px;
+            align-items: center;
         }
 
         input {
             width: 100%;
-            padding: 12px;
-            border: 1px solid #ddd;
-            border-radius: 6px;
-            font-size: 14px;
+            padding: 14px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
             outline: none;
-            transition: border-color 0.3s;
+            transition: border-color 0.3s, box-shadow 0.3s;
         }
 
         input:focus {
-            border-color: #6c757d;
+            border-color: #007bff;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
         }
 
         button {
             width: 100%;
-            padding: 12px;
-            background: #212529;
+            padding: 14px;
+            background: #007bff;
             color: white;
             border: none;
-            border-radius: 6px;
-            font-size: 14px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 500;
             cursor: pointer;
-            transition: background 0.3s;
+            transition: background 0.3s, transform 0.2s;
         }
 
         button:hover {
-            background: #343a40;
+            background: #0056b3;
+            transform: scale(1.02);
         }
     </style>
 </head>
 <body>
     <form action="/register" method="post">
+        <h1>Sign Up</h1>
         <input type="text" placeholder="Name" name="name">
         <input type="text" placeholder="Username" name="username">
         <input type="number" placeholder="Age" name="age">
