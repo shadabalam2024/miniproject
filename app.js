@@ -32,6 +32,10 @@ app.get("/logout",(req,res)=>{
     res.render('login')
 })
 
+app.get("/protected",isloggenin,(req,res)=>{
+    res.send("this route is protected")
+})
+
 
 app.post("/register",async(req,res)=>{
 
@@ -84,6 +88,16 @@ app.post("/login",async(req,res)=>{
     
 })
 
+function isloggenin(req,res,next){
+    if(req.cookies.token=="" || req.cookies.token===undefined){
+        res.send("you need to first logIn")
+    }else{
+        let data = jwt.verify(req.cookies.token,'shh')
+        req.user=data
+    }
+    next()
+
+}
 
 
 
