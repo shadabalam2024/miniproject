@@ -13,36 +13,38 @@
         }
 
         body {
-            background: linear-gradient(to right, #1f4037, #99f2c8);
+            background: #f2f2f7;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            min-height: 100vh;
+            padding: 20px;
         }
 
         .container {
-            background: white;
-            width: 70%;
+            background: #ffffff;
+            width: 65%;
+            max-width: 800px;
             padding: 30px;
             border-radius: 12px;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
             text-align: center;
-            max-height: 90vh;
+            max-height: 85vh;
             overflow-y: auto;
+            border: 2px solid #e3e3e3;
         }
 
         .welcome {
             font-size: 24px;
-            font-weight: bold;
+            font-weight: 600;
             color: #333;
             margin-bottom: 15px;
         }
 
-        .post-section {
-            margin-top: 20px;
-            padding: 15px;
-            background: #f1f1f1;
-            border-radius: 8px;
+        h5 {
+            font-size: 18px;
+            color: #007bff;
+            margin-bottom: 12px;
         }
 
         form {
@@ -56,34 +58,34 @@
             width: 100%;
             height: 120px;
             padding: 12px;
-            border: 2px solid #ddd;
-            border-radius: 10px;
-            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 15px;
             outline: none;
-            transition: border-color 0.3s, box-shadow 0.3s;
+            transition: border-color 0.3s;
         }
 
         textarea:focus {
             border-color: #007bff;
-            box-shadow: 0 0 8px rgba(0, 123, 255, 0.3);
+            background: #f0f8ff;
         }
 
         button {
             width: 100%;
-            padding: 14px;
-            background: linear-gradient(to right, #007bff, #004aad);
+            padding: 12px;
+            background: #007bff;
             color: white;
             border: none;
-            border-radius: 10px;
-            font-size: 18px;
-            font-weight: bold;
+            border-radius: 8px;
+            font-size: 17px;
+            font-weight: 500;
             cursor: pointer;
             transition: background 0.3s, transform 0.2s;
         }
 
         button:hover {
-            background: linear-gradient(to right, #004aad, #003377);
-            transform: scale(1.05);
+            background: #0056b3;
+            transform: scale(1.03);
         }
 
         .posts-container {
@@ -92,48 +94,70 @@
         }
 
         .post {
-            background: #fff;
+            background: #f9f9fc;
             padding: 15px;
-            border-radius: 10px;
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
             margin-bottom: 12px;
             transition: transform 0.3s;
+            border: 1px solid #ddd;
         }
 
         .post:hover {
             transform: scale(1.02);
+            background: #eef2ff;
         }
 
         .post-author {
             font-size: 15px;
-            color: #555;
+            color: #007bff;
             font-weight: bold;
             margin-bottom: 5px;
         }
 
         .post-content {
             font-size: 17px;
-            color: #222;
+            color: #333;
+        }
+
+        .post-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 10px;
+        }
+
+        .post-actions a {
+            text-decoration: none;
+            font-size: 15px;
+            padding: 8px 14px;
+            border: 1px solid #007bff;
+            border-radius: 6px;
+            color: #007bff;
+            font-weight: 500;
+            transition: background 0.3s, color 0.3s;
+            background: #f0f8ff;
+        }
+
+        .post-actions a:hover {
+            background: #007bff;
+            color: white;
         }
 
         .logout-link {
             display: block;
-            margin-top: 25px;
+            margin-top: 20px;
             padding: 12px;
-            background: #ff4b5c;
+            background: #dc3545;
             color: white;
             border-radius: 8px;
             text-decoration: none;
-            font-weight: bold;
-            transition: background 0.3s, transform 0.2s;
+            font-weight: 500;
+            text-align: center;
+            transition: background 0.3s;
         }
 
         .logout-link:hover {
-            background: #d42d45;
-            transform: scale(1.05);
-        }
-        .post-author{
-            color: #007bff;
+            background: #b02a37;
         }
     </style>
 </head>
@@ -143,31 +167,26 @@
 
         <h5>📝 Create a New Post</h5>
 
-        <form action="" method="post">
-            <textarea name="postContent" placeholder="What's on your mind?" required></textarea>
-            <button type="submit">Create New Post 🚀</button>
+        <form action="/post" method="post">
+            <textarea name="content" placeholder="What's on your mind?" required></textarea>
+            <button type="submit">Create New Post</button>
         </form>
 
-        <form action="/post" method="post">
-            <div class="posts-container">
-                <h3>🌟 Recent Posts</h3>
+        <div class="posts-container">
+            <h3>Recent Posts</h3>
+            <% user.posts.reverse().forEach(post => { %>
                 <div class="post">
-                    
-                    <p class="post-author">Posted by @ <%= user.username %></p>
-                    <p class="post-content">🚀 This is an example post. Excited to share more!</p>
-                    <div>
-                        <a href="">like</a>
-                        <a href="">edit</a>
+                    <p class="post-author">Posted by <%= user.username %></p>
+                    <p class="post-content"><%= post.content %></p>
+                    <div class="post-actions">
+                        <a href="#">Like</a>
+                        <a href="#">Edit</a>
                     </div>
                 </div>
-                <div class="post">
-                    <p class="post-author">Posted by Jane Smith</p>
-                    <p class="post-content">🔥 Another great post to test UI!</p>
-                </div>
-            </div>
-        </form>
+            <% }) %>
+        </div>
 
-        <a href="/logout" class="logout-link">🔴 Log Out</a>
+        <a href="/logout" class="logout-link">Log Out</a>
     </div>
 </body>
 </html>

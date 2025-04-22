@@ -71,7 +71,7 @@ app.post("/login",async(req,res)=>{
 
     let{email,password}=req.body
 
-    let user=await userModel.findOne({email})
+    let user=await userModel.findOne({email}).populate("posts")
     if(!user){
         res.status(400).send("Incorrect Credentials")
     }
@@ -101,14 +101,27 @@ function isloggenin(req,res,next){
 }
 
 app.get("/profile",isloggenin,async(req,res)=>{
-    let user=await userModel.findOne({email:req.user.email})
+    let user=await userModel.findOne({email:req.user.email}).populate("posts")
+    // user.populate("posts")
     res.render("profile",{user})
 })
 
 
 app.post("/post",isloggenin,async(req,res)=>{
     let user=await userModel.findOne({email:req.user.email})
+    let {content}=req.body
+
+    let post= await postsModel.create({
+        user:user._id,
+        content,
+
+    })
+
+    user.posts.push(post._id)
     
+    await user.save()
+    res.redirect("/profile")
+
 
 })
 
