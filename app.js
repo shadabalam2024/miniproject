@@ -32,9 +32,7 @@ app.get("/logout",(req,res)=>{
     res.render('login')
 })
 
-app.get("/protected",isloggenin,(req,res)=>{
-    res.send("this route is protected")
-})
+
 
 
 app.post("/register",async(req,res)=>{
@@ -83,7 +81,7 @@ app.post("/login",async(req,res)=>{
             
             const token = jwt.sign({email: email, userid: user._id},"shh");
             res.cookie("token",token)
-            res.status(200).send("logedIn successfully")
+            res.status(200).render("profile",{user})
         }else res.status(400).send("Incorrect Credentials")
         
     });
@@ -92,16 +90,27 @@ app.post("/login",async(req,res)=>{
 
 function isloggenin(req,res,next){
     if(req.cookies.token=="" || req.cookies.token===undefined){
-        res.send("you need to first logIn")
+        res.redirect("login")
     }else{
         let data = jwt.verify(req.cookies.token,'shh')
         req.user=data
+        next()
     }
-    next()
+    
 
 }
 
+app.get("/profile",isloggenin,async(req,res)=>{
+    let user=await userModel.findOne({email:req.user.email})
+    res.render("profile",{user})
+})
 
+
+app.post("/post",isloggenin,async(req,res)=>{
+    let user=await userModel.findOne({email:req.user.email})
+    
+
+})
 
 
 

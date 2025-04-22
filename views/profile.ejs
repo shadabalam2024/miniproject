@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blogging App</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(to right, #1f4037, #99f2c8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background: white;
+            width: 70%;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .welcome {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .post-section {
+            margin-top: 20px;
+            padding: 15px;
+            background: #f1f1f1;
+            border-radius: 8px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        textarea {
+            width: 100%;
+            height: 120px;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            font-size: 16px;
+            outline: none;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        textarea:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 8px rgba(0, 123, 255, 0.3);
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(to right, #007bff, #004aad);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.2s;
+        }
+
+        button:hover {
+            background: linear-gradient(to right, #004aad, #003377);
+            transform: scale(1.05);
+        }
+
+        .posts-container {
+            margin-top: 20px;
+            text-align: left;
+        }
+
+        .post {
+            background: #fff;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+            margin-bottom: 12px;
+            transition: transform 0.3s;
+        }
+
+        .post:hover {
+            transform: scale(1.02);
+        }
+
+        .post-author {
+            font-size: 15px;
+            color: #555;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .post-content {
+            font-size: 17px;
+            color: #222;
+        }
+
+        .logout-link {
+            display: block;
+            margin-top: 25px;
+            padding: 12px;
+            background: #ff4b5c;
+            color: white;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background 0.3s, transform 0.2s;
+        }
+
+        .logout-link:hover {
+            background: #d42d45;
+            transform: scale(1.05);
+        }
+        .post-author{
+            color: #007bff;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <p class="welcome">👋 Hello <%= user.username %>, Welcome to Your Blog</p>
+
+        <h5>📝 Create a New Post</h5>
+
+        <form action="" method="post">
+            <textarea name="postContent" placeholder="What's on your mind?" required></textarea>
+            <button type="submit">Create New Post 🚀</button>
+        </form>
+
+        <form action="/post" method="post">
+            <div class="posts-container">
+                <h3>🌟 Recent Posts</h3>
+                <div class="post">
+                    
+                    <p class="post-author">Posted by @ <%= user.username %></p>
+                    <p class="post-content">🚀 This is an example post. Excited to share more!</p>
+                    <div>
+                        <a href="">like</a>
+                        <a href="">edit</a>
+                    </div>
+                </div>
+                <div class="post">
+                    <p class="post-author">Posted by Jane Smith</p>
+                    <p class="post-content">🔥 Another great post to test UI!</p>
+                </div>
+            </div>
+        </form>
+
+        <a href="/logout" class="logout-link">🔴 Log Out</a>
+    </div>
+</body>
+</html>
