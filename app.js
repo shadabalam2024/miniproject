@@ -162,4 +162,19 @@ app.post("/post",isloggenin,async(req,res)=>{
 
 })
 
+app.delete("/delete/:id", isloggenin, async (req, res) => {
+    try {
+        let post = await postsModel.findOneAndDelete({ _id: req.params.id });
+
+        if (!post) {
+            return res.status(404).json({ message: "Post not found" });
+        }
+
+        res.json({ message: "Post deleted successfully" });
+    } catch (error) {
+        res.status(500).json({ message: "Error deleting post", error });
+    }
+    
+});
+
 app.listen(3000)
