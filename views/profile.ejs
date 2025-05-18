@@ -178,9 +178,11 @@
                 <div class="post">
                     <p class="post-author">Posted by <%= user.username %></p>
                     <p class="post-content"><%= post.content %></p>
+                    <small><%= post.likes.length %> likes</small>
                     <div class="post-actions">
-                        <a href="#">Like</a>
-                        <a href="#">Edit</a>
+                        <!-- <a href="/like/<%= post._id %>"><%= post.likes.indexOf(user._id) ? "like" : "unlike" %></a> -->
+                        <a href="/edit/<%= post._id %>">Edit</a>
+                        <a href="/delete/<%= post._id %>">Delete</a>
                     </div>
                 </div>
             <% }) %>

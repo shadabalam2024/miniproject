@@ -5,7 +5,8 @@ import userModel from "./models/user.model.js"
 import postsModel from "./models/posts.model.js"
 import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken"
-// import authMiddleware from "./middlewares/restrictuser.js"
+
+
 
 
 
@@ -88,6 +89,8 @@ app.post("/login",async(req,res)=>{
     
 })
 
+
+//middleware
 function isloggenin(req,res,next){
     if(req.cookies.token=="" || req.cookies.token===undefined){
         res.redirect("login")
@@ -105,6 +108,40 @@ app.get("/profile",isloggenin,async(req,res)=>{
     // user.populate("posts")
     res.render("profile",{user})
 })
+
+
+app.get("/like/:id", isloggenin, async (req, res) => {
+    let post = await postsModel.findOne({ _id: req.params.id }).populate("user");
+
+    if (!post) {
+        return res.status(404).send("Post not found");
+    }
+
+    if(post.likes.indexOf(req.user.userid)===-1){
+        post.likes.push(req.user.userid);
+    }else{
+        post.likes.splice(post.likes.indexOf(req.user.userid),1)
+    }
+
+    
+    await post.save();
+    
+    res.redirect("/profile");
+});
+
+
+app.get("/edit/:id", isloggenin, async (req, res) => {
+    let post = await postsModel.findOne({ _id: req.params.id }).populate("user");
+
+    res.render("edit",{post})
+});
+app.post("/update/:id", isloggenin, async (req, res) => {
+    let post = await postsModel.findOneAndUpdate({ _id: req.params.id },{content:req.body.content});
+
+    res.redirect("/profile")
+});
+
+
 
 
 app.post("/post",isloggenin,async(req,res)=>{
@@ -125,13 +162,4 @@ app.post("/post",isloggenin,async(req,res)=>{
 
 })
 
-
-
-
-
-
-
-
-
-
-app.listen(3000,()=>{msg:"listening on port 8000"})
+app.listen(3000)
