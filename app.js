@@ -60,7 +60,7 @@ app.post("/register",async(req,res)=>{
         const token = jwt.sign({email: email, userid: user._id},"shh");
         
         res.cookie("token",token)
-        res.send("user regosterd successfuly")
+        res.render("login")
 
     
         
@@ -162,19 +162,19 @@ app.post("/post",isloggenin,async(req,res)=>{
 
 })
 
-app.delete("/delete/:id", isloggenin, async (req, res) => {
+app.post("/delete/:id", isloggenin, async (req, res) => {
     try {
         let post = await postsModel.findOneAndDelete({ _id: req.params.id });
 
         if (!post) {
-            return res.status(404).json({ message: "Post not found" });
+            return res.status(404).send("Post not found");
         }
 
-        res.json({ message: "Post deleted successfully" });
+        res.redirect("/profile");
     } catch (error) {
-        res.status(500).json({ message: "Error deleting post", error });
+        console.error("Error deleting post:", error);
+        res.status(500).send("Error deleting post");
     }
-    
 });
 
 app.listen(3000)
